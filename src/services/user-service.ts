@@ -24,11 +24,11 @@ export class UserService {
       'SELECT id, title, completed, createAt FROM todoitem where id=?',
       sid,
       (_error: string, rows: any) => {
-        if (!rows) {
+        if (rows) {
+          console.log(rows);
+        } else {
           console.log('ItemNotFound');
         }
-
-        console.log(rows);
       }
     );
     return {
@@ -53,17 +53,35 @@ export class UserService {
     return sid + '삭제';
   }
 
+  // 해당 아이디 업데이트
+  async updateTodoitem(sid: string, stitle: string, scompleted: boolean) {
+    console.log('UpdateTodoitem sid:', sid);
+    db.run(
+      'UPDATE todoitem set title=?,completed=? where id=?',
+      [stitle, scompleted, sid],
+      (_error: string) => {
+        if (_error) {
+          console.log('RequestFailed' + _error);
+          return {
+            error: 'RequestFailed',
+            message: _error,
+          };
+        }
+
+        console.log(sid + ' 업데이트 완료');
+      }
+    );
+    return sid + '업데이트';
+  }
+
   // 아이디 저장하기
-  async insertTodoitem(
-    sid: string,
-    stitle: string,
-    scompleted: boolean,
-    screateAt: number
-  ) {
+  async insertTodoitem(stitle: string) {
+    const sid = Math.random().toString(36).slice(2); // 유일한 ID만들기
+    const timestamp = Date.now(); // 생성 시각(밀리세컨드)
     console.log('insertTodoitem sid:', sid);
     db.run(
       'insert into todoitem ( id, title, completed, createAt) values (?,?,?,?)',
-      [sid, stitle, scompleted, screateAt],
+      [sid, stitle, true, timestamp],
       (_error: string) => {
         if (_error) {
           console.log('RequestFailed' + _error);
@@ -73,8 +91,6 @@ export class UserService {
     return {
       id: sid,
       title: stitle,
-      completed: scompleted,
-      createAt: screateAt,
     };
   }
 }

@@ -32,27 +32,30 @@ router.get('/api/todos/:id', async (ctx) => {
 });
 
 // 해당 아이디 삭제하기
-router.get('/api/todos/del/:id', async (ctx) => {
+router.delete('/api/todos/:id', async (ctx) => {
   const { id } = ctx.params;
   const userService = new UserService();
   const user = await userService.deleteTodoitem(id);
   ctx.body = user;
 });
 
+// 해당 아이디 업데이트
+router.put('/api/todos/:id', async (ctx) => {
+  const { id } = ctx.params;
+  const postuser = ctx.request.body as TodoItem;
+  const stitle = postuser.title;
+  const scompleted = postuser.completed;
+  const userService = new UserService();
+  const user = await userService.updateTodoitem(id, stitle, scompleted);
+  ctx.body = user;
+});
+
 // 아이디 저장하기
 router.post('/api/todos/', async (ctx) => {
   const postuser = ctx.request.body as TodoItem;
-  const sid = postuser.id;
   const stitle = postuser.title;
-  const scompleted = postuser.completed;
-  const screateAt = postuser.createAt;
   const userService = new UserService();
-  const user = await userService.insertTodoitem(
-    sid,
-    stitle,
-    scompleted,
-    screateAt
-  );
+  const user = await userService.insertTodoitem(stitle);
   ctx.body = user;
 });
 
