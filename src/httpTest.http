@@ -2,7 +2,7 @@ POST http://localhost:8080/api/todos/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "sampleTest3"
+    "title": "sampleTest4"
 }
 ###
 GET http://localhost:8080/api/todos/ HTTP/1.1
@@ -11,13 +11,13 @@ GET http://localhost:8080/api/todos/kara041 HTTP/1.1
 ###
 GET http://localhost:8080/api/todos/kara HTTP/1.1
 ###
-DELETE http://localhost:8080/api/todos/sample3 HTTP/1.1
+DELETE http://localhost:8080/api/todos/sample2 HTTP/1.1
 ###
-PUT http://localhost:8080/api/todos/sample2 HTTP/1.1
+PUT http://localhost:8080/api/todos/dddd HTTP/1.1
 content-type: application/json
 
 {
-    "title": "sampledd",
-    "completed": true
+    "title": "sampledaa",
+    "completed": false
 }
 ###
